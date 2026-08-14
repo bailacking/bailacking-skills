@@ -14,6 +14,8 @@
 | 4 | `multi-agent` | G4 | 复杂任务分解后按角色并行派工，分支隔离 | 说「并行做」「派多个 agent」 |
 | 5 | `guardrail` | G6 | 提交/引依赖前扫密钥+PII+危险依赖 | 提交/推送/加依赖前强制 |
 | 6 | `vcs` | G9 | 原子提交+特性分支+PR，破坏性 git 操作先确认 | 说「提交」「推上去」「开 PR」 |
+| 7 | `skill-forge` | forge | 把 GitHub 上的 skill 改写适配成 WorkBuddy 能用的，草稿交你确认 | 说「找个 skill」「借鉴/改这个 skill」 |
+| 8 | `design-taste-frontend` | taste | 写网页/组件自动带设计意图，破除 AI 模板感 | 说「美化」「别这么 AI 味」「提升审美」 |
 
 ## 逐个详解
 
@@ -41,6 +43,15 @@
 - **功能**：改动须原子提交、带描述、可回滚；特性分支开发、走 PR；破坏性 git 操作（reset --hard / push --force）先给方案等确认；不开 `--no-verify` 绕过钩子。
 - **来源/借鉴**：`ksaday/github-workflow`、`wshobson/commands`、`aider`（git-aware 自动提交）的版本工作流思路。
 
+### 7. skill-forge · Skill 锻造（forge · 额外补全）
+- **功能**：GitHub 上的 skill（Claude Code / Cursor 生态）直接用在 WorkBuddy 会环境/语法不兼容。本 skill 是「专项翻译机」：**只读 fetch 外部 skill → 映射成 WorkBuddy 的 SKILL.md 格式 → 标出不兼容点 → 在 `test` 目录产可加载草稿 → 交大帅「确认执行」才安装**。绝不照搬、绝不自动安装。
+- **来源/借鉴**：无现成可复制 skill，为自建。核心资产是「Claude/Cursor → WorkBuddy 格式映射表」（见 SKILL.md 正文），把 `$ARGUMENTS` / `allowed-tools` / `hooks` / `@file` 等外部语法逐一改写为 WorkBuddy 认的格式。
+- **与 reuse-eval 的关系**：reuse-eval 是「要不要复用」的总闸门；skill-forge 是「怎么改成能跑的」专项。顺序：reuse-eval 评估通过 → skill-forge 改写 → 大帅确认执行。
+
+### 8. design-taste-frontend · 前端审美提升（taste · skill-forge 实装样例）
+- **功能**：写/改网页、落地页、组件、UI 时，自动带「设计意图」——三拨盘（变化度/动效/密度）、AI Slop 禁令清单（杜绝紫渐变+三卡片+居中模板感、em-dash 零容忍）、输出前预检清单、改旧项目的重设计协议。告别「能跑但像 AI 批量生成」的丑界面。
+- **来源/借鉴**：GitHub `Leonxlnx/taste-skill`（**MIT**，v2 纯指令文档）。经 `reuse-eval` 过红线（MIT 安全）+ `skill-forge` 改写适配（仅补 WorkBuddy frontmatter、译中文、删 Claude/Cursor 安装路径），是本仓库**第一个用 skill-forge 流程实装进来的外部 skill**。
+
 ## 使用约定（重要）
 - **这些都是「能力包」，不是程序**：不独立运行，DS 在对话中遇到对应场景自动加载照做。
 - **GitHub 上的 skill 不能直接用**：Claude Code/Cursor 生态的 skill 在 WorkBuddy 有环境/语法差异（工具名、`$ARGUMENTS`、hooks 不同）。本仓库全部为**借鉴思路后自行改写适配**的可用版本。
@@ -56,5 +67,7 @@ bailacking-skills/
 ├── codebase-course/SKILL.md
 ├── multi-agent/SKILL.md
 ├── guardrail/SKILL.md
-└── vcs/SKILL.md
+├── vcs/SKILL.md
+├── skill-forge/SKILL.md
+└── design-taste-frontend/SKILL.md
 ```
