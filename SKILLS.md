@@ -16,7 +16,7 @@
 | 6 | `vcs` | G9 | 原子提交+特性分支+PR，破坏性 git 操作先确认 | 说「提交」「推上去」「开 PR」 |
 | 7 | `skill-forge` | forge | 把 GitHub 上的 skill 改写适配成 WorkBuddy 能用的，草稿交你确认 | 说「找个 skill」「借鉴/改这个 skill」 |
 | 8 | `design-taste-frontend` | taste | 写网页/组件自动带设计意图，破除 AI 模板感 | 说「美化」「别这么 AI 味」「提升审美」 |
-| 9 | `project-intake` | intake | 多轮访谈补全项目信息，选择题为主+选项简介+推荐项+开放题模板，你喊停才落盘 | 说「把XX问清楚」「补全项目信息」「访谈我」 |
+| 9 | `project-intake` | intake | 多轮访谈补全项目信息，选择题为主+选项简介+推荐项+开放题模板，双闸门收尾（绝不擅自收尾） | 说「把XX问清楚」「补全项目信息」「访谈我」 |
 
 ## 逐个详解
 
@@ -54,7 +54,7 @@
 - **来源/借鉴**：GitHub `Leonxlnx/taste-skill`（**MIT**，v2 纯指令文档）。经 `reuse-eval` 过红线（MIT 安全）+ `skill-forge` 改写适配（仅补 WorkBuddy frontmatter、译中文、删 Claude/Cursor 安装路径），是本仓库**第一个用 skill-forge 流程实装进来的外部 skill**。
 
 ### 9. project-intake · 项目信息访谈（intake · skill-forge 实装样例）
-- **功能**：把模糊 / 空白项目，通过**多轮由浅入深访谈**补全成结构化文档。大帅 v1.1 硬要求：**选择题为主、开放题为辅**；选择题每题带「选项简介 + 推荐项（排第一、附理由）+ 我不确定选项」；开放题必附 `____` 填空模板 + 示例。每轮末问「可以整理了吗」，**只有大帅明确喊停才写 `PROJECT.md`**。
+- **功能**：把模糊 / 空白项目，通过**多轮由浅入深访谈**补全成结构化文档。大帅 v1.1 硬要求：**选择题为主、开放题为辅**；选择题每题带「选项简介 + 推荐项（排第一、附理由）+ 我不确定选项」；开放题必附 `____` 填空模板 + 示例。**v1.2 修正「擅自收尾」**：收尾升级为双闸门——每轮末绝不诱导收尾（推荐项固定「继续补充」）、仅大帅无歧义指令才进收尾、模糊话视为未许可、即便喊停仍需第二次确认才落盘。
 - **来源/借鉴**：GitHub `parcadei/Continuous-Claude-v3` 的 `discovery-interview`（**MIT**，3884★，主源：多阶段访谈 + 知识缺口检测 + 研究循环 + 冲突解决）+ `cfircoo/claude-code-toolkit` 的 `spec-interview`（**MIT**，17★，补充 question_domains 清单）。经 `reuse-eval` 过红线（均 MIT 安全）+ `skill-forge` 改写适配（删 `model:`/`user-invocable`/`context:fork`、统一为 WorkBuddy `AskUserQuestion` 格式、输出落 `PROJECT.md`、强化「用户主导收尾」），是本仓库**第二个用 skill-forge 流程实装进来的外部 skill**。
 
 ## 使用约定（重要）
@@ -66,7 +66,6 @@
 ```
 bailacking-skills/
 ├── SKILLS.md              ← 你正在看的这份索引
-├── DS-skills-course.html  ← 讲解课（小白向）
 ├── verify/SKILL.md
 ├── reuse-eval/SKILL.md
 ├── codebase-course/SKILL.md
